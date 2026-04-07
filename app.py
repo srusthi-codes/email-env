@@ -1,9 +1,14 @@
-from fastapi import FastAPI, Form
+from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse
 from inference import run_inference
+from env import EmailEnv
 
 app = FastAPI()
 
+# 👉 GLOBAL ENV (for OpenEnv APIs)
+env = EmailEnv()
+
+# ================= UI =================
 @app.get("/", response_class=HTMLResponse)
 def home():
     return """
@@ -66,6 +71,7 @@ def home():
     </body>
     </html>
     """
+
 
 @app.post("/analyze", response_class=HTMLResponse)
 def analyze_email(text: str = Form(...)):
@@ -160,3 +166,23 @@ def analyze_email(text: str = Form(...)):
 </body>
 </html>
 """
+
+
+# ================= OPENENV REQUIRED APIs =================
+
+@app.post("/reset")
+def reset():
+    state = env.reset()
+    return {"state": state}
+
+
+@app.post("/step")
+async def step(request: Request):
+    action = await request.json()
+    state, reward, done, _ = env.step(action)
+
+    return {
+        "state": state,
+        "reward": reward,
+        "done": done
+    }
