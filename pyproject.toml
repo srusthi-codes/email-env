@@ -1,0 +1,9 @@
+[project]
+name = "email-env"
+version = "0.1.0"
+description = "Email AI OpenEnv Hackathon Project"
+authors = [{ name = "Srusthi" }]
+dependencies = [
+    "fastapi",
+    "uvicorn"
+]
