@@ -1,0 +1,15 @@
+name: email-env
+description: AI Email Assistant Environment
+version: 1.0
+
+tasks:
+  - id: easy
+    description: Detect spam emails
+
+  - id: medium
+    description: Classify email category
+
+  - id: hard
+    description: Generate smart reply
+
+reward_range: [0.0, 1.0]
